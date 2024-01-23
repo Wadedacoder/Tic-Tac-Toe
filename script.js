@@ -11,8 +11,8 @@ GameBoard = [
     ['', '', '']
 ];
 
-isFinished = false;
-
+let isFinished = false;
+let isDraw = false;
 
 function UpdateUI() {
     // Update the UI
@@ -22,7 +22,13 @@ function UpdateUI() {
         }
     }
 
-    string = `Current Turn: ${CurrentTurn}`;
+    let string = `Current Turn: ${CurrentTurn}`;
+    if(isFinished) {
+        string = `Game Over! \n ${CurrentTurn} Wins!`;
+    }
+    if(isDraw) {
+        string = `Game Over! \n Draw!`;
+    }
     // Update the turn
     document.getElementById('turn').innerHTML = string;
 }
@@ -47,12 +53,12 @@ function CellClicked(idx) {
         GameLoop();
 
         // Change the turn
-        ChangeTurn();
+        if(!isFinished) ChangeTurn();
 
         // Update the UI
         UpdateUI();
     } else {
-        alert('Cell is not empty');
+        // alert('Cell is not empty');
     }
 }
 
@@ -111,14 +117,15 @@ function CheckDraw() {
 function GameLoop() {
     // Check if the game is over
         if (CheckGameOver()) {
-            alert('Game Over');
+            // alert('Game Over');
             isFinished = true;
 
         }
 
         if (CheckDraw()) {
-            alert('Draw');
+            // alert('Draw');
             isFinished = true;
+            isDraw = true;
         }
 
         // ChangeTurn();
@@ -137,6 +144,7 @@ function Reset() {
 
     // Game is not finished
     isFinished = false;
+    isDraw = false;
 
     // Update the UI
     UpdateUI();
